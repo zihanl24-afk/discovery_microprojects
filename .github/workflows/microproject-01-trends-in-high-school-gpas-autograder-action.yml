@@ -12,23 +12,14 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: Checkout
-      id: sr-checkout
       uses: actions/checkout@v4
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
-        cache: pip
-        cache-dependency-path: microproject-01-trends-in-high-school-gpas/requirements.txt
     - name: Checkout release repository
-      id: release-checkout
       uses: actions/checkout@v4
       with:
         repository: dsdiscovery/microprojects
         ref: microproject-01-trends-in-high-school-gpas
         path: release
     - name: Checkout cell replacer
-      id: cell-replace-checkout
       uses: actions/checkout@v4
       with:
         repository: dsdiscovery/cell-replace
@@ -40,6 +31,12 @@ jobs:
         src_path: release/microproject-01-trends-in-high-school-gpas
         dst_path: microproject-01-trends-in-high-school-gpas
         copy: '.github/classroom : .github/classroom, requirements.txt : requirements.txt'
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: pip
+        cache-dependency-path: microproject-01-trends-in-high-school-gpas/requirements.txt
     - run: pip install -r microproject-01-trends-in-high-school-gpas/requirements.txt
     - name: Run cell-replace
       run: python cell-replace/cell-replace.py microproject-01-trends-in-high-school-gpas/microproject-01-trends-in-high-school-gpas.ipynb release/microproject-01-trends-in-high-school-gpas/microproject-01-trends-in-high-school-gpas.ipynb
@@ -54,3 +51,13 @@ jobs:
         path: microproject-01-trends-in-high-school-gpas/
         test_suite: autograding
         step_summary: true
+    - name: Record a Successful MicroProject (telemetry)
+      uses: illinois/autograding-telemetry@v2
+      continue-on-error: true
+      with:
+        endpoint: https://waf-server-01.cs.illinois.edu/autograder-telemetry/
+        log_date: true
+        assignment: microproject-01-trends-in-high-school-gpas
+        upstream_repo: dsdiscovery/microprojects
+        autograding_status: ${{ steps.autograding.outcome }}
+        points: ${{ steps.autograding.outputs.Points }}
