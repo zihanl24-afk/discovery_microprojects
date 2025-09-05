@@ -1,5 +1,10 @@
 {
   "allOrNothing": true,
+  "microProject": {
+    "title": "MicroProject #2: NWS Hourly Weather Forecast",
+    "image": "https://waf-server-01.cs.illinois.edu/static/up-cards/02/regular.svg",
+    "link": "https://mastery.cs.illinois.edu/platform/cards/"
+  },
   "tests": [
     {
       "name": "Part 1: Retrieving Your Forecast",
