@@ -60,4 +60,3 @@ jobs:
         assignment: microproject-01-trends-in-high-school-gpas
         upstream_repo: dsdiscovery/microprojects
         autograding_status: ${{ steps.autograding.outcome }}
-  git merge microprojects/microproject-02-nws-hourly-weather-forecast --allow-unrelated-histories -m "Merging initial files"
